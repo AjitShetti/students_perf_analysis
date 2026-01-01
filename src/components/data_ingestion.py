@@ -5,7 +5,8 @@ from sklearn.model_selection import train_test_split
 from src.exception import CustomException
 from src.logger import logging
 from dataclasses import dataclass
-from src.components import data_transformation
+from src.components.data_transformation import DataTransformation
+from src.components.model_trainer import ModelTrainer
 
 @dataclass
 class DataIngestionConfig:
@@ -20,7 +21,9 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method")
         try:
-            df = pd.read_csv('notebook\data\stud.csv')
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+            csv_path = os.path.join(project_root, "notebook", "data", "stud.csv")
+            df = pd.read_csv(csv_path)
             logging.info("Read the dataset and converted it to dataframe")
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
 
